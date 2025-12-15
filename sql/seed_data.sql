@@ -41,3 +41,29 @@ INSERT INTO movies (
     FALSE,
     'Arrow Video Limited Edition'
 );
+
+INSERT INTO movies (
+    title,
+    release_date,
+    genre_ref,
+    director,
+    lead_actor,
+    format_ref,
+    distributor_ref,
+    region_code,
+    date_added,
+    watched,
+    notes
+) VALUES (
+    'The Keep',
+    '1983-12-16',
+    3, -- Sci-Fi
+    'Michael Mann',
+    'Scott Glenn',
+    2, -- 4K UHD
+    2, -- Arrow Video
+    'All',
+    CURRENT_DATE,
+    FALSE,
+    'Vinegar Syndrome Limited Edition 4K UHD'
+);
