@@ -1,0 +1,43 @@
+USE blu_ray_collection;
+
+INSERT INTO genres (genre_name) VALUES
+('Action'),
+('Drama'),
+('Sci-Fi'),
+('Horror');
+
+INSERT INTO formats (format_name) VALUES
+('Blu-ray'),
+('4K UHD');
+
+INSERT INTO distributors (distributor_name) VALUES
+('Criterion Collection'),
+('Vinegar Syndrome'),
+('Arrow Video'),
+('Umbrella Entertainment');
+
+INSERT INTO movies (
+    title,
+    release_date,
+    genre_ref,
+    director,
+    lead_actor,
+    format_ref,
+    distributor_ref,
+    region_code,
+    date_added,
+    watched,
+    notes
+) VALUES (
+    'Road House',
+    '1989-05-19',
+    1, -- Action
+    'Rowdy Herrington',
+    'Patrick Swayze',
+    2, -- 4K UHD
+    3, -- Arrow Video
+    'B',
+    CURRENT_DATE,
+    FALSE,
+    'Arrow Video Limited Edition'
+);
