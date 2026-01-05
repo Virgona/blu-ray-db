@@ -34,32 +34,39 @@ def add_movie():
     title = input("Movie Title: ")
     director = input("Director: ")
     release_year = input("Release Year: ")
-    distributor_id = input("Distributor ID: ")
+    distributor_ref = input("Distributor ID: ")
 
-# We use try / except / finally to safely handle errors
-# and guarantee the database connection closes properly.
+    # We use try / except / finally to safely handle errors
+    # and guarantee the database connection closes properly.
 
     connection = None
-cursor = None
+    cursor = None
 
-try:
-    connection = mysql.connector.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
+    try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
 
-    cursor = connection.cursor()
+            # --- Query for SQL ---
+            sql = """
+                INSERT INTO movies (title, director, release_year, distributor_ref)
+                VALUES (%s, %s, %s, %s)
+            """
+            values = (title, director, release_year, distributor_ref)
 
-except mysql.connector.Error as err:
-    print("Database error:", err)
+            cursor.execute(sql, values)
+            connection.commit()   # <- Saves the insert permanently
 
-finally:
-    if cursor:
-        cursor.close()
-    if connection and connection.is_connected():
-        connection.close()
+            print("Movie added successfully!")
+
+    except mysql.connector.Error as err:
+        print("Database error:", err)
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection and connection.is_connected():
+            connection.close()
+
 
 if __name__ == "__main__":
     add_movie()

@@ -22,7 +22,7 @@ CREATE TABLE distributors (
 CREATE TABLE movies (
     movie_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
-    release_date DATE NOT NULL,
+    release_year INT NOT NULL,
     genre_ref INT NOT NULL,
     director VARCHAR(50) NOT NULL,
     lead_actor VARCHAR(50) NOT NULL,

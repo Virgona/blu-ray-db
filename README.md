@@ -10,7 +10,7 @@ A personal SQL project to track my collection of films
 
 ## Tech
 - MySQL
-- SQL
+- Python
 
 ## Setup
 1. Open MySQL
