@@ -1,6 +1,7 @@
 import mysql.connector          # MySQL database driver
 from dotenv import load_dotenv  # Loads variables from .env file
 import os                       # Lets us access environment variables
+from datetime import date
 
 
 # --------------------------------------------------
@@ -31,11 +32,17 @@ def get_db_connection():                    #--- Connects to the database using 
 def add_movie():
     print("Add a new movie to the database\n")
 
-    title = input("Movie Title: ")
+    title = input("Title: ")
+    release_year = input("Release Year (YYYY): ")
+    genre_ref = input("Genre ID: ")
     director = input("Director: ")
-    release_year = input("Release Year: ")
+    lead_actor = input("Lead Actor: ")
+    format_ref = input("Format ID: ")
     distributor_ref = input("Distributor ID: ")
+    region_code = input("Region Code (e.g., A/B/C): ")
 
+    # adding date of entry
+    date_added = date.today()
     # We use try / except / finally to safely handle errors
     # and guarantee the database connection closes properly.
 
@@ -48,10 +55,22 @@ def add_movie():
 
             # --- Query for SQL ---
             sql = """
-                INSERT INTO movies (title, director, release_year, distributor_ref)
-                VALUES (%s, %s, %s, %s)
-            """
-            values = (title, director, release_year, distributor_ref)
+            INSERT INTO movies
+            (title, release_year, genre_ref, director, lead_actor,
+             format_ref, distributor_ref, region_code, date_added)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+            values = ( 
+            title,
+            int(release_year),
+            int(genre_ref),
+            director,
+            lead_actor,
+            int(format_ref),
+            int(distributor_ref),
+            region_code,
+            date_added
+            )
 
             cursor.execute(sql, values)
             connection.commit()   # <- Saves the insert permanently
