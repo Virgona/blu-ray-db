@@ -120,7 +120,22 @@ def add_movie():
         if connection:
             connection.close()
 
+#-- Basic menu for a user to operate db --#
+def main_menu():
+    while True:
+        print("\n=== Blu-ray Collection ===")
+        print("1) Add a movie")
+        print("2) Exit")
 
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            add_movie()
+        elif choice == "2":
+            print("Goodbye 👋")
+            break
+        else:
+            print("Invalid choice. Try again.")
 
 if __name__ == "__main__":
-    add_movie()
+    main_menu()
