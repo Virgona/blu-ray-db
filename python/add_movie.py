@@ -29,6 +29,16 @@ def get_db_connection():                    #--- Connects to the database using 
         database=os.getenv("DB_NAME")
     )
 
+#-- helper function to get all of the distributors from the db for a list later --#
+def get_distributors(cursor):
+     query = """
+        SELECT distributor_id, distributor_name, distributor_type
+        FROM distributors
+        ORDER BY distributor_type DESC, distributor_name;
+        """
+     cursor.execute(query)
+     return cursor.fetchall()
+
 def add_movie():
     print("Add a new movie to the database\n")
 

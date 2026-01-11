@@ -11,6 +11,7 @@ INSERT INTO formats (format_name) VALUES
 ('4K UHD');
 
 INSERT INTO distributors (distributor_name) VALUES
+('Standard'),
 ('Criterion Collection'),
 ('Vinegar Syndrome'),
 ('Arrow Video'),
