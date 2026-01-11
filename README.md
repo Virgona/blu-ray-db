@@ -60,3 +60,10 @@ and building a small but usable backend application.
     python python/add_movie.py
 
 2. Follow the prompts from the menu! 😊
+
+## Planned Improvements
+- Refactor Python Code into modules
+- imporved input validation
+- search and filtering options
+- API layer (Flask / fastAPI)
+- Frontend
