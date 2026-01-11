@@ -120,18 +120,63 @@ def add_movie():
         if connection:
             connection.close()
 
+#--- displays all movies currently in the database ---#
+
+def list_movies():
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        query = """
+            SELECT
+                m.title,
+                m.release_year,
+                d.distributor_name
+            FROM movies m
+            JOIN distributors d ON m.distributor_ref = d.distributor_id
+            ORDER BY m.title;
+        """
+
+        cursor.execute(query)
+        movies = cursor.fetchall()
+
+        print("\n=== All Movies ===")
+        if not movies:
+            print("(no movies yet)")
+            return
+
+        for title, year, distributor in movies:
+            print(f"{title} ({year}) — {distributor}")
+
+    except mysql.connector.Error as err:
+        print("Database error:", err)
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
 #-- Basic menu for a user to operate db --#
 def main_menu():
     while True:
         print("\n=== Blu-ray Collection ===")
         print("1) Add a movie")
-        print("2) Exit")
+        print("2) List all movies")
+        print("3) Exit")
 
         choice = input("Choose an option: ").strip()
 
         if choice == "1":
             add_movie()
+
         elif choice == "2":
+            list_movies()
+
+        elif choice == "3":
             print("Goodbye 👋")
             break
         else:
