@@ -16,6 +16,14 @@ INSERT INTO distributors (distributor_name) VALUES
 ('Arrow Video'),
 ('Umbrella Entertainment');
 
+INSERT INTO boutique_distributor
+(distributor_id, boutique_label_name, notes)
+VALUES
+(1, 'The Criterion Collection', 'High-quality restorations and Preservation'),
+(2, 'Vinegar Syndrome', 'Restoration and Preservation of genre films'),
+(3, 'Arrow Video', 'Restoring Cult Classics'),
+(4, 'Umbrella Entertainment', 'Distributing Cult Cinema');
+
 INSERT INTO movies (
     title,
     release_date,

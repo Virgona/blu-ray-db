@@ -16,6 +16,7 @@ CREATE TABLE formats (
 CREATE TABLE distributors (
     distributor_id INT AUTO_INCREMENT PRIMARY KEY,
     distributor_name VARCHAR(100) NOT NULL,
+    distributor_type ENUM('STANDARD', 'BOUTIQUE') NOT NULL DEFAULT 'STANDARD',
     UNIQUE KEY (distributor_name)
 );
 
