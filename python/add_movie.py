@@ -133,6 +133,7 @@ def list_movies():
         query = """
             SELECT
                 m.title,
+                m.director,
                 m.release_year,
                 d.distributor_name
             FROM movies m
@@ -148,8 +149,50 @@ def list_movies():
             print("(no movies yet)")
             return
 
-        for title, year, distributor in movies:
-            print(f"{title} ({year}) — {distributor}")
+        for title, director, year, distributor in movies:
+            print(f"{title}, {director}, ({year}) — {distributor}")
+
+    except mysql.connector.Error as err:
+        print("Database error:", err)
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+# generates a list of Boutique distributed movies only --#
+
+def list_boutique_movies():
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        query = """
+            SELECT
+                m.title,
+                m.director,
+                m.release_year,
+                d.distributor_name
+            FROM movies m
+            JOIN distributors d ON m.distributor_ref = d.distributor_id
+            WHERE d.distributor_type = 'BOUTIQUE'
+            ORDER BY d.distributor_name, m.title;
+        """
+
+        cursor.execute(query)
+        movies = cursor.fetchall()
+
+        print("\n=== Boutique Movies ===")
+        if not movies:
+            print("(no boutique movies yet)")
+            return
+
+        for title, director, year, distributor in movies:
+            print(f"{title}, {director}, ({year}) — {distributor}")
 
     except mysql.connector.Error as err:
         print("Database error:", err)
@@ -166,7 +209,8 @@ def main_menu():
         print("\n=== Blu-ray Collection ===")
         print("1) Add a movie")
         print("2) List all movies")
-        print("3) Exit")
+        print("3) List boutique movies")
+        print("4) Exit")
 
         choice = input("Choose an option: ").strip()
 
@@ -177,6 +221,9 @@ def main_menu():
             list_movies()
 
         elif choice == "3":
+            list_boutique_movies()
+
+        elif choice == "4":
             print("Goodbye 👋")
             break
         else:
