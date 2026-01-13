@@ -5,14 +5,15 @@ from db import get_db_connection
 from cli_helper import prompt_int, choose_from_list
 from lookups import get_distributors, get_formats, get_genres
 
-
+# user can add a movie to the database
 def add_movie():
     connection = None
     cursor = None
 
     try:
+        #-- opening a connection to the database
         connection = get_db_connection()
-        cursor = connection.cursor()
+        cursor = connection.cursor() # cursor is an object that executes SQL statements and manages results returned
 
         print("\n=== Add a Movie ===")
 
@@ -22,7 +23,12 @@ def add_movie():
         lead_actor = input("Lead Actor: ").strip()
         region_code = input("Region Code (A/B/C): ").strip().upper()
 
-        # Choose genre / format / distributor from DB lists
+        # Uses the cli helpers to get the list of genres and formats and distributors
+        # from the db. Then displays them as a list to be chosen from
+        # we use label_fn=lambda pass through get_genres which is returning a row
+        # from the genres table and then displaying it as a list starting at 1.
+        # r = row from the database at number 1.
+
         genres = get_genres(cursor)
         chosen_genre = choose_from_list(genres, "Genres", label_fn=lambda r: r[1])
         genre_ref = chosen_genre[0]
@@ -76,6 +82,7 @@ def add_movie():
         print("\n❌ Database error:", err)
 
     finally:
+        #-- closing the connection to the database
         if cursor:
             cursor.close()
         if connection:
@@ -101,7 +108,7 @@ def list_movies():
         """
 
         cursor.execute(query)
-        rows = cursor.fetchall()
+        rows = cursor.fetchall() # fetchall retrieves all returned rows
 
         print("\n=== All Movies ===")
         if not rows:

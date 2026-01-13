@@ -9,18 +9,15 @@ def prompt_int(prompt: str) -> int:
 
 
 def choose_from_list(rows, title: str, label_fn):
-    # ----------------------------------------
-    # Generic chooser for a list of DB rows.
-    # rows: list of tuples (e.g. (id, name, type))
-    # label_fn: function(row)->str to show each row
-    # Returns: chosen row (tuple)
-    # ----------------------------------------
+
+    # displays a numbered list of items from the database. Depending which the user has chosen to see
+    
     if not rows:
         raise RuntimeError(f"No options available for {title}.")
 
-    print(f"\n{title}:")
+    print(f"\n{title}:")                        
     for idx, row in enumerate(rows, start=1):
-        print(f"{idx}) {label_fn(row)}")
+        print(f"{idx}) {label_fn(row)}") # converts a row from the database into displayed text. e.g. 1. movieTitle
 
     while True:
         choice = prompt_int("Choose number: ")
