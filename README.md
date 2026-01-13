@@ -25,6 +25,17 @@ and building a small but usable backend application.
 
 ---
 
+## Project Structure
+
+python/
+- app.py         # Application entry point
+- db.py          # Database connection logic
+- movies.py      # Movie-related actions and queries
+- lookups.py     # Lookup queries (genres, formats, distributors)
+- cli_helpers.py # Shared CLI input helpers
+
+---
+
 ## Setup Instructions
 
 ### 1. Database setup
@@ -57,12 +68,12 @@ and building a small but usable backend application.
 
 ## 4. Run the App
 1. run the project from the root folder:
-    python python/add_movie.py
+    python python/app.py
 
 2. Follow the prompts from the menu! 😊
 
 ## Planned Improvements
-- Refactor Python Code into modules
+- Refactor Python Code into modules ✅
 - imporved input validation
 - search and filtering options
 - API layer (Flask / fastAPI)
