@@ -190,9 +190,13 @@ def edit_movie():
             return
 
         for movie_id, title, release_year in movies:
-            print(f"{movie_id}) {title} ({release_year})")
+            print(f"{title} ({release_year}) ID:{movie_id})")
 
-        movie_id_to_edit = prompt_int("\nEnter the movie ID to edit: ")
+        movie_id_to_edit = prompt_int("\nEnter the movie ID to edit: (or enter 0 to cancel back to the menu)")
+
+        if movie_id_to_edit == 0:
+            print("editing cancelled!")
+            return
 
         # Fetch the current values for the selected movie
         fetch_query = """

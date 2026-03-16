@@ -8,7 +8,7 @@ def main_menu():
         print("2) List all movies")
         print("3) List boutique movies")
         print("4) Edit a movies metadata")
-        print("Exit")
+        print("5) Exit")
 
         choice = input("Choose an option: ").strip()
 
