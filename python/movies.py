@@ -166,3 +166,119 @@ def list_boutique_movies():
             cursor.close()
         if connection:
             connection.close()
+
+def edit_movie():
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        # Show movies first so the user can choose an ID
+        list_query = """
+            SELECT movie_id, title, release_year
+            FROM movies
+            ORDER BY title;
+        """
+        cursor.execute(list_query)
+        movies = cursor.fetchall()
+
+        print("\n=== Edit a Movie ===")
+        if not movies:
+            print("(no movies available)")
+            return
+
+        for movie_id, title, release_year in movies:
+            print(f"{movie_id}) {title} ({release_year})")
+
+        movie_id_to_edit = prompt_int("\nEnter the movie ID to edit: ")
+
+        # Fetch the current values for the selected movie
+        fetch_query = """
+            SELECT
+                movie_id,
+                title,
+                release_year,
+                director,
+                lead_actor,
+                region_code,
+                watched,
+                notes
+            FROM movies
+            WHERE movie_id = %s;
+        """
+        cursor.execute(fetch_query, (movie_id_to_edit,))
+        movie = cursor.fetchone()
+
+        if not movie:
+            print("Movie not found.")
+            return
+
+        (
+            movie_id,
+            current_title,
+            current_release_year,
+            current_director,
+            current_lead_actor,
+            current_region_code,
+            current_watched,
+            current_notes
+        ) = movie
+
+        print("\nLeave a field blank to keep the current value.\n")
+
+        new_title = input(f"Title [{current_title}]: ").strip()
+        new_release_year = input(f"Release Year [{current_release_year}]: ").strip()
+        new_director = input(f"Director [{current_director}]: ").strip()
+        new_lead_actor = input(f"Lead Actor [{current_lead_actor}]: ").strip()
+        new_region_code = input(f"Region Code [{current_region_code}]: ").strip().upper()
+        new_watched = input(f"Watched (0 or 1) [{current_watched}]: ").strip()
+        new_notes = input(f"Notes [{current_notes if current_notes else ''}]: ").strip()
+
+        # If blank, keep the old value
+        final_title = new_title if new_title else current_title
+        final_release_year = int(new_release_year) if new_release_year else current_release_year
+        final_director = new_director if new_director else current_director
+        final_lead_actor = new_lead_actor if new_lead_actor else current_lead_actor
+        final_region_code = new_region_code if new_region_code else current_region_code
+        final_watched = int(new_watched) if new_watched else current_watched
+        final_notes = new_notes if new_notes else current_notes
+
+        update_query = """
+            UPDATE movies
+            SET
+                title = %s,
+                release_year = %s,
+                director = %s,
+                lead_actor = %s,
+                region_code = %s,
+                watched = %s,
+                notes = %s
+            WHERE movie_id = %s;
+        """
+
+        values = (
+            final_title,
+            final_release_year,
+            final_director,
+            final_lead_actor,
+            final_region_code,
+            final_watched,
+            final_notes,
+            movie_id
+        )
+
+        cursor.execute(update_query, values)
+        connection.commit()
+
+        print("\nMovie updated successfully!")
+
+    except mysql.connector.Error as err:
+        print("\nDatabase error:", err)
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()

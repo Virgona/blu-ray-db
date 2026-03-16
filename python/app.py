@@ -1,4 +1,4 @@
-from movies import add_movie, list_movies, list_boutique_movies  # importing all our functions to keep it clean
+from movies import add_movie, list_movies, list_boutique_movies, edit_movie  # importing all our functions to keep it clean
 
 
 def main_menu():
@@ -7,7 +7,8 @@ def main_menu():
         print("1) Add a movie")
         print("2) List all movies")
         print("3) List boutique movies")
-        print("4) Exit")
+        print("4) Edit a movies metadata")
+        print("Exit")
 
         choice = input("Choose an option: ").strip()
 
@@ -18,6 +19,8 @@ def main_menu():
         elif choice == "3":
             list_boutique_movies()
         elif choice == "4":
+            edit_movie()
+        elif choice == "5":
             print("Goodbye 👋")
             break
         else:
